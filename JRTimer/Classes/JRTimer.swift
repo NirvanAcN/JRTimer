@@ -31,7 +31,7 @@ public extension Timer {
     ///   - event: 事件
     /// - Returns: Timer
     @discardableResult
-    public class func JREvery(_ timeInterval: TimeInterval, _ event: TimerNormalAction!) -> Timer {
+    public class func JREvery(_ timeInterval: TimeInterval, at queue: DispatchQueue = DispatchQueue.main, _ event: TimerNormalAction!) -> Timer {
         let timer = Timer.JRScheduledTimer(timeInterval: timeInterval, repeats: true, event: event)
         timer.JRStart()
         return timer
@@ -65,5 +65,6 @@ public extension Timer {
     ///   - forMode: forMode
     public func JRStart(_ runloop: RunLoop = .current, _ forMode: RunLoopMode = .defaultRunLoopMode) {
         runloop.add(self, forMode: forMode)
+        runloop.run()
     }
 }
