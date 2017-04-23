@@ -49,13 +49,17 @@ public extension Timer {
     
     @objc private class func onTimerValueChange(_ sender: Timer) {
         guard let event = sender.userInfo as? TimerNormalAction else { return }
-        event(sender)
+        DispatchQueue.main.async {
+            event(sender)
+        }
     }
     
     @objc private class func onDelayTimerValueChange(_ sender: Timer) {
         guard let event = sender.userInfo as? TimerDelayAction else { return }
-        event()
-        sender.invalidate()
+        DispatchQueue.main.async {
+            event()
+            sender.invalidate()
+        }
     }
     
     /// p2.添加Timer的启动函数
