@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
 s.name             = "JRTimer"
-s.version          = "0.0.3"
+s.version          = "0.0.4"
 s.summary          = "JRTimer summary"
 
 s.description      = <<-DESC

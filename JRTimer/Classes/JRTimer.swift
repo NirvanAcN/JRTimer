@@ -31,9 +31,9 @@ public extension Timer {
     ///   - event: 事件
     /// - Returns: Timer
     @discardableResult
-    public class func JREvery(_ timeInterval: TimeInterval, at queue: DispatchQueue = DispatchQueue.main, _ event: TimerNormalAction!) -> Timer {
+    public class func JREvery(_ timeInterval: TimeInterval, _ queue: DispatchQueue = .main, _ event: TimerNormalAction!) -> Timer {
         let timer = Timer.JRScheduledTimer(timeInterval: timeInterval, repeats: true, event: event)
-        timer.JRStart()
+        timer.JRStart(at: queue)
         return timer
     }
     
@@ -42,9 +42,9 @@ public extension Timer {
     /// - Parameters:
     ///   - timeInterval: 延迟时间
     ///   - event: 事件
-    public class func JRAfter(_ timeInterval: TimeInterval, _ event: TimerDelayAction!){
+    public class func JRAfter(_ timeInterval: TimeInterval, _ queue: DispatchQueue = .main, _ event: TimerDelayAction!){
         let timer = Timer(timeInterval: timeInterval, target: self, selector: #selector(onDelayTimerValueChange), userInfo:event, repeats: false)
-        timer.JRStart()
+        timer.JRStart(at: queue)
     }
     
     @objc private class func onTimerValueChange(_ sender: Timer) {
@@ -63,8 +63,14 @@ public extension Timer {
     /// - Parameters:
     ///   - runloop: runloop
     ///   - forMode: forMode
-    public func JRStart(_ runloop: RunLoop = .current, _ forMode: RunLoopMode = .defaultRunLoopMode) {
-        runloop.add(self, forMode: forMode)
-        runloop.run()
+    public func JRStart(at queue: DispatchQueue = .main, _ runloop: RunLoop = .current, _ forMode: RunLoopMode = .defaultRunLoopMode) {
+        if queue == DispatchQueue.main {
+            runloop.add(self, forMode: forMode)
+        } else {
+            queue.async {
+                RunLoop.current.add(self, forMode: forMode)
+                RunLoop.current.run()
+            }
+        }
     }
 }

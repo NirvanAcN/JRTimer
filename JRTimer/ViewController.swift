@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         let t = Timer.JREvery(1.JRSeconds) { (_) in
             print("hehe")
         }
-        t.invalidate()
+//        t.invalidate()
     }
 }
 
