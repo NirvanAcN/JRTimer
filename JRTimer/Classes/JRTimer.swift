@@ -19,7 +19,7 @@ public extension Timer {
     ///   - repeats: 是否循环
     ///   - event: 事件
     /// - Returns: Timer
-    public class func JRScheduledTimer(timeInterval: TimeInterval, repeats: Bool, event: TimerNormalAction!) -> Timer {
+    public class func JRScheduledTimer(timeInterval: TimeInterval, _ queue: DispatchQueue = .main, repeats: Bool, event: TimerNormalAction!) -> Timer {
         let timer = Timer(timeInterval: timeInterval, target: self, selector: #selector(onTimerValueChange), userInfo:event, repeats: repeats)
         return timer
     }

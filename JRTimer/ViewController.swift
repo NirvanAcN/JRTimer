@@ -13,7 +13,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let t = Timer.JREvery(1.JRSeconds) { (_) in
+//        let t = Timer.JREvery(1.JRSeconds) { (_) in
+//            print("hehe")
+//        }
+        
+        Timer.JREvery(0.5.JRSeconds, .global()) { _ in
             print("hehe")
         }
 //        t.invalidate()
